@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "cl.puc.ing.proyectofinal"
-        minSdk 30
+        minSdk 33
         targetSdk 33
         versionCode 1
         versionName "1.0"

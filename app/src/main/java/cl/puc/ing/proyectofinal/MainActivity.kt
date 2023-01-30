@@ -7,6 +7,8 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cl.puc.ing.proyectofinal.R
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -18,21 +20,23 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewAdapter: PokemonViewAdapter
+    private lateinit var viewAdapter: RVItemAdapter
     private lateinit var queue: RequestQueue
+    private val pokemonList: MutableList<Pokemon> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val listView: ListView = findViewById(R.id.list_view)
+        val rvListView: RecyclerView = findViewById(R.id.list_view)
         val refreshButton: Button = findViewById(R.id.refresh_button)
 
-        viewAdapter= PokemonViewAdapter(this)
+
+        viewAdapter= RVItemAdapter(pokemonList)
         queue = Volley.newRequestQueue(this)
 
-        listView.adapter=viewAdapter
-        listView.onItemClickListener=AdapterView.OnItemClickListener { _, _, position, _ -> goToDetailActivity(viewAdapter.getItem(position)!!) }
+        rvListView.layoutManager=GridLayoutManager(this, 2)
+        rvListView.adapter=viewAdapter
 
         refreshButton.setOnClickListener { onRefresh() }
     }
@@ -49,38 +53,39 @@ class MainActivity : AppCompatActivity() {
         val url = "https://pokeapi.co/api/v2/pokemon"
 
         val listRequest = JsonObjectRequest(url, { response: JSONObject ->
-            run {
-                try {
-                    val pokemonListJSON = response.getJSONArray("results")
-                    viewAdapter.clear()
+                                                            run {
+                                                                try {
+                                                                    val pokemonListJSON = response.getJSONArray("results")
+                                                                    pokemonList.clear()
 
-                    for (i in 0 until pokemonListJSON.length()) {
-                        retrievePokemon(pokemonListJSON.getJSONObject(i))
-                    }
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            }
-        }, { error ->
-            run {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_LONG).show()
-                error.printStackTrace()
-            }
-        })
+                                                                    for (i in 0 until pokemonListJSON.length()) {
+                                                                        retrievePokemon(pokemonListJSON.getJSONObject(i))
+                                                                    }
+                                                                } catch (e: JSONException) {
+                                                                    e.printStackTrace()
+                                                                }
+//                                                                viewAdapter.notifyDataSetChanged()
+                                                            }
+                                                        }
+                                                        , { error ->
+                                                            run {
+                                                                Toast.makeText(this, "Network Error", Toast.LENGTH_LONG).show()
+                                                                error.printStackTrace()
+                                                            }
+                                                        })
         queue.add(listRequest)
     }
 
     private fun retrievePokemon(pokemonData: JSONObject?) {
         val url = pokemonData?.getString("url")
-        val pokemonRequest =
-            JsonObjectRequest(url, { response: JSONObject ->
-                parsePokemon(response)
-            }, { error ->
-                run {
-                    Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show()
-                    error.printStackTrace()
-                }
-            })
+        val pokemonRequest = JsonObjectRequest(url
+                                                    , { response: JSONObject -> parsePokemon(response) }
+                                                    , { error ->
+                                                        run {
+                                                            Toast.makeText(this, "Network error", Toast.LENGTH_LONG).show()
+                                                            error.printStackTrace()
+                                                        }
+                                                    })
 
         queue.add(pokemonRequest)
     }
@@ -100,6 +105,7 @@ class MainActivity : AppCompatActivity() {
             sprite
         )
 
-        viewAdapter.add(pokemon)
+        pokemonList.add(pokemon)
+        viewAdapter.notifyDataSetChanged()
     }
 }
