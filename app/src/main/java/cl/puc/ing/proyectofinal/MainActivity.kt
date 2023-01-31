@@ -1,25 +1,25 @@
 package cl.puc.ing.proyectofinal
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import cl.puc.ing.proyectofinal.R
+import cl.puc.ing.proyectofinal.model.Pokemon
+import cl.puc.ing.proyectofinal.model.Sprite
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import cl.puc.ing.proyectofinal.model.Pokemon
-import cl.puc.ing.proyectofinal.model.Sprite
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
-
+    companion object {
+        val LOG = Logger.getLogger(MainActivity::class.java.name)
+    }
     private lateinit var viewAdapter: RVItemAdapter
     private lateinit var queue: RequestQueue
     private val pokemonList: MutableList<Pokemon> = arrayListOf()
@@ -28,8 +28,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val topAppBar: Toolbar =findViewById(R.id.topAppBar)
+        topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.refreshActionMenu -> {
+                    onRefresh()
+                }
+                else -> false
+            }
+        }
+
+//        LOG.info("toolbar: $toolbar")
+//        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setHomeButtonEnabled(true);
+
         val rvListView: RecyclerView = findViewById(R.id.list_view)
-        val refreshButton: Button = findViewById(R.id.refresh_button)
+//        val refreshButton: Button = findViewById(R.id.refresh_button)
 
 
         viewAdapter= RVItemAdapter(pokemonList)
@@ -37,8 +52,8 @@ class MainActivity : AppCompatActivity() {
 
         rvListView.layoutManager=GridLayoutManager(this, 2)
         rvListView.adapter=viewAdapter
-
-        refreshButton.setOnClickListener { onRefresh() }
+        onRefresh()
+//        refreshButton.setOnClickListener { onRefresh() }
     }
 
     private fun goToDetailActivity(item: Pokemon) {
@@ -49,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun onRefresh() {
+    private fun onRefresh(): Boolean {
         val url = "https://pokeapi.co/api/v2/pokemon"
 
         val listRequest = JsonObjectRequest(url, { response: JSONObject ->
@@ -74,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                                                             }
                                                         })
         queue.add(listRequest)
+        return true
     }
 
     private fun retrievePokemon(pokemonData: JSONObject?) {

@@ -18,8 +18,9 @@ class ItemDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setHomeButtonEnabled(true);
 
         val pokemonSpriteImageView : ImageView = findViewById(R.id.pokemon_detail_imgvw)
         val pokemonNameTextView : TextView =  findViewById(R.id.pokemon_detail_txtvw)

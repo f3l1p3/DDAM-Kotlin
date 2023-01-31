@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ProyectoFinal</string>
+    <string name="refrescar">refrescar</string>
+    <string name="pokemon_gallery">Pokemon Gallery</string>
 </resources>
