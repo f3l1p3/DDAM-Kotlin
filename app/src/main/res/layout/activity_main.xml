@@ -28,16 +28,11 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
     android:orientation="vertical"
 
     >
-        <Button
-            android:id="@+id/refresh_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/refrescar"
-            style="@style/Widget.MaterialComponents.Button"
-            />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

@@ -2,6 +2,8 @@ package cl.puc.ing.proyectofinal
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -40,8 +42,8 @@ class MainActivity : AppCompatActivity() {
 
 //        LOG.info("toolbar: $toolbar")
 //        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setHomeButtonEnabled(true);
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+//        supportActionBar?.setHomeButtonEnabled(true);
 
         val rvListView: RecyclerView = findViewById(R.id.list_view)
 //        val refreshButton: Button = findViewById(R.id.refresh_button)
@@ -54,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         rvListView.adapter=viewAdapter
         onRefresh()
 //        refreshButton.setOnClickListener { onRefresh() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater=menuInflater
+        inflater.inflate(R.menu.top_app_bar,menu)
+        return true//super.onCreateOptionsMenu(menu)
     }
 
     private fun goToDetailActivity(item: Pokemon) {

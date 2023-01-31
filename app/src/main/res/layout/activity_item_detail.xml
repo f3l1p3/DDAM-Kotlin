@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+
         >
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -23,45 +23,51 @@
             />
 
     </com.google.android.material.appbar.AppBarLayout>
-    <com.google.android.material.card.MaterialCardView
-
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/purple_200"
-        app:cardElevation="3dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?attr/actionBarSize"
         >
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@color/purple_200"
+            app:cardElevation="3dp"
+
             >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
 
-        <ImageView
-            android:id="@+id/pokemon_detail_imgvw"
-            android:layout_width="match_parent"
-            android:layout_height="227dp"
-            android:src="@drawable/unknown_pokemon"
+            <ImageView
+                android:id="@+id/pokemon_detail_imgvw"
+                android:layout_width="match_parent"
+                android:layout_height="227dp"
+                android:src="@drawable/unknown_pokemon"
 
-        />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/pokemon_detail_txtvw"
-                android:layout_width="wrap_content"
+            />
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                tools:text="test"
-                />
-        </LinearLayout>
-        </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/pokemon_detail_txtvw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+
+                    tools:text="test"
+                    />
+            </LinearLayout>
+            </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

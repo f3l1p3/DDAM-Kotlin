@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -18,7 +20,7 @@ class ItemDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
-        
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setHomeButtonEnabled(true);
 
@@ -29,5 +31,11 @@ class ItemDetailActivity : AppCompatActivity() {
 
         pokemonNameTextView.text = item.name
         Glide.with(this).load(item.sprite.frontDefault).into(pokemonSpriteImageView)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater =menuInflater
+        inflater.inflate(R.menu.top_app_bar,menu)
+        return true//super.onCreateOptionsMenu(menu)
     }
 }
